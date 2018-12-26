@@ -1,0 +1,10 @@
+dataset/*
+
+*.pyc
+*.ipynb
+
+im2txt/data/inception_v3_2016_08_28.tar.gz
+im2txt/data/inception_v3.ckpt
+im2txt/dataset/*
+im2txt/output_model/*
+im2txt/output/*
