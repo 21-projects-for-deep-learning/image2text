@@ -31,8 +31,8 @@ import time
 import numpy as np
 import tensorflow as tf
 
-from im2txt import configuration
-from im2txt import show_and_tell_model
+import configuration
+import show_and_tell_model
 
 FLAGS = tf.flags.FLAGS
 
@@ -129,7 +129,8 @@ def run_once(model, saver, summary_writer, summary_op):
     if global_step < FLAGS.min_global_step:
       tf.logging.info("Skipping evaluation. Global step = %d < %d", global_step,
                       FLAGS.min_global_step)
-      return
+      tf.logging.info("原计划跳过评估，但是我们的step数量要小很多，所以我们继续评估。步数={}，最小步数={}。".format(global_step, FLAGS.min_global_step))
+      # return
 
     # Start the queue runners.
     coord = tf.train.Coordinator()

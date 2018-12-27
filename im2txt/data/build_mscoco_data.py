@@ -187,7 +187,8 @@ def _int64_feature(value):
 
 def _bytes_feature(value):
   """Wrapper for inserting a bytes Feature into a SequenceExample proto."""
-  print("value=", type(value))
+  if isinstance(value, str):
+    value = bytes(value, encoding="utf-8")
   return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
 
 
@@ -213,11 +214,10 @@ def _to_sequence_example(image, decoder, vocab):
     A SequenceExample proto.
   """
   with tf.gfile.FastGFile(image.filename, 'rb') as f:
-    encoded_image = f.read().decode("utf-8", 'ignore')
+    encoded_image = f.read()
 
   try:
     decoder.decode_jpeg(encoded_image)
-    # encoded_image = tf.image.decode_jpeg(encoded_image, channels=3)
   except (tf.errors.InvalidArgumentError, AssertionError):
     print("Skipping file with invalid JPEG data: {}.".format(image.filename))
     return
